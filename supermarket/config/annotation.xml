@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<context:annotation-config />
+
+	<bean id="dbProductDao" class="com.jama.dao.DbProductDao"/>
+	<bean id="hashProductDao" class="com.jama.dao.HashProductDao"/>
+	<bean id="dbProductDaoFactory" class="com.jama.dao.DbProductDaoFactory">
+	  <lookup-method name="createProductDao" bean="dbProductDao"/>
+	</bean>
+	<bean id="hashProductDaoFactory" class="com.jama.dao.HashProductDaoFactory">
+	  <lookup-method name="createProductDao" bean="hashProductDao"/>
+	</bean>
+	<bean id="productDaoFactory" class="com.jama.dao.ProductDaoFactory">
+	  <lookup-method name="createDbProductDaoFactory" bean="dbProductDaoFactory"/>
+	  <lookup-method name="createHashProductDaoFactory" bean="hashProductDaoFactory"/>
+	</bean>
+</beans>
